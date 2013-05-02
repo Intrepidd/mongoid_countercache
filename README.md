@@ -31,23 +31,36 @@ Include ``Mongoid::CounterCache`` into your embedded or referenced model :
       counter_cache :post
     end
 
+Heads up ! Be sure to declare the field in the parent model, due to dependency restrictions, it can't be added programatically without having the children model to be required first
+
+    class Post
+      has_many :comments
+
+      field :comment_count, :type => Integer, :default => 0
+    end
+
 Use the count method in the parent model :
 
-    Comment.first.post_count
+    Post.first.comment_count
 
 You can rename the field used for storing the counter
 
-    counter_cache :post, :field_name => 'post_counter'
+    counter_cache :post, :field_name => 'comment_counter'
 
 Then :
 
-    Comment.first.post_counter
+    Post.first.comment_counter
 
 ## Variants
 
 Sometimes you want to keep a count but only for a subset of your document.
 
 Fortunately, mongoid_counter_cache allows to keep alternative counters :
+
+Don't forget to add in the Post class :
+
+    field :comment_count_positive, :type => Integer, :type => 0
+    field :comment_count_negative, :type => Integer, :type => 0
 
     class Comment
       include Mongoid::Document
@@ -59,14 +72,14 @@ Fortunately, mongoid_counter_cache allows to keep alternative counters :
 
       counter_cache :post, :variants => {
         :positive => lambda { mark >= 8 },
-        :positive => lambda { mark <= 2 }
+        :negative => lambda { mark <= 2 }
       }
     end
 
 You just have to suffix the count method to get the number of positive comments here :
 
-    Comment.first.post_count_positive
-    Comment.first.post_count_negative
+    Post.first.comment_count_positive
+    Post.first.comment_count_negative
 
 It's even magic ! If you update the comment so it doesn't belongs to the same counter, the counters will be updated accordingly.
 

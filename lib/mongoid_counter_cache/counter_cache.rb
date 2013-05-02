@@ -10,17 +10,10 @@ module Mongoid
       #
       # @param [Class] relation_name The name of the parent relation on which to create the cache
       def counter_cache(relation_name, options = {})
-        parent_class = relation_name.to_s.camelize.constantize
         field_name = (options[:field_name] || "#{self.to_s.demodulize.underscore}_count").to_s
-        parent_class.class_eval <<-eos
-           field :#{field_name}, :type => Integer, :default => 0
-        eos
 
         options[:variants].to_a.each do |key,proc|
           variant_name = "#{field_name}_#{key.to_s.strip}"
-          parent_class.class_eval <<-eos
-             field :#{variant_name}, :type => Integer, :default => 0
-          eos
 
           after_create { update_parent_counter(self.send(relation_name), variant_name, 1, proc) }
           after_destroy { update_parent_counter(self.send(relation_name), variant_name, -1, proc) }

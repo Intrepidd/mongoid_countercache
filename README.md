@@ -31,6 +31,14 @@ Include ``Mongoid::CounterCache`` into your embedded or referenced model :
       counter_cache :post
     end
 
+Heads up ! Be sure to require the children document in the parent file, so there is no dependency issues :
+
+    require 'comment'
+
+    class Post
+      has_many :comments
+    end
+
 Use the count method in the parent model :
 
     Comment.first.post_count

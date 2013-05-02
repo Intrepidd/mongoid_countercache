@@ -22,37 +22,33 @@ module Mongoid
              field :#{variant_name}, :type => Integer, :default => 0
           eos
 
-          after_create do
-            parent = self.send(relation_name)
-            if parent && parent[variant_name]
-              parent[variant_name] += 1 if proc.bind(self).call
+          after_create { update_parent_counter(self.send(relation_name), variant_name, 1, proc) }
+          after_destroy { update_parent_counter(self.send(relation_name), variant_name, -1, proc) }
+          after_update { update_parent_counter(self.send(relation_name), variant_name, 1, proc) }
+
+          before_update do
+            attributes = self.attributes.dup
+            self.changes.each do |change, vals|
+              self.attributes[change] = vals.first
             end
-          end
-
-          after_destroy do
-            parent = self.send(relation_name)
-            if parent && parent[variant_name]
-              parent[variant_name] -= 1 if proc.bind(self).call
-            end
+            update_parent_counter(self.send(relation_name), variant_name, -1, proc)
+            self.attributes = attributes
           end
 
         end
 
-        after_create do
-          parent = self.send(relation_name)
-          if parent && parent[field_name]
-            parent[field_name] += 1
-          end
-        end
-
-        after_destroy do
-          parent = self.send(relation_name)
-          if parent && parent[field_name]
-            parent[field_name] -= 1
-          end
-        end
+        after_create { update_parent_counter(self.send(relation_name), field_name, 1) }
+        after_destroy { update_parent_counter(self.send(relation_name), field_name, -1) }
 
       end
+    end
+
+    private
+
+    def update_parent_counter(parent, field, inc, proc = nil)
+      return unless parent && parent[field]
+      parent[field] += inc if proc.nil? || proc.bind(self).call
+      parent.save
     end
 
   end

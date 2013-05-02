@@ -58,6 +58,20 @@ describe 'CounterCache' do
     end
   end
 
+  context 'Updates and variants' do
+    it 'Updates the cache after an edit' do
+      comment = @post.comments.create(:mark => 9)
+      @post.comment_count_positive.should == 1
+      @post.comment_count.should == 1
+      comment.mark = 2
+      comment.save
+      @post.reload
+      @post.comment_count_positive.should == 0
+      @post.comment_count_negative.should == 1
+      @post.comment_count.should == 1
+    end
+  end
+
 
 
 

@@ -7,7 +7,7 @@ class Comment
 
   belongs_to :post
 
-  field :mark, :type => Integer
+  field :mark, :type => Integer, :default => 5
 
   counter_cache :post, :variants => {
     :positive => lambda { mark > 8},

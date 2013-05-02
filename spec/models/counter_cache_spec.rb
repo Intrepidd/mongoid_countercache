@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'models/post'
 require 'models/comment'
+require 'models/like'
 
 describe 'CounterCache' do
 
@@ -31,6 +32,12 @@ describe 'CounterCache' do
       @post.comments.last.destroy
       @post.comment_count.should == 0
       @post.custom_field_name.should == 0
+
+      @post.likes.create
+      @post.likes.create
+      @post.like_count.should == 2
+      @post.likes.last.destroy
+      @post.like_count.should == 1
     end
   end
 
@@ -71,8 +78,4 @@ describe 'CounterCache' do
       @post.comment_count.should == 1
     end
   end
-
-
-
-
 end

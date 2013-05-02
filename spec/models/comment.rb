@@ -13,4 +13,6 @@ class Comment
     :positive => lambda { mark > 8},
     :negative => lambda { mark < 3}
   }
+
+  counter_cache :post, :field_name => 'custom_field_name'
 end

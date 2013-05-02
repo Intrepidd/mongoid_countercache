@@ -18,15 +18,19 @@ describe 'CounterCache' do
     it 'Updates the counter' do
       @post.comments.create
       @post.comment_count.should == 1
+      @post.custom_field_name.should == 1
 
       @post.comments.create
       @post.comment_count.should == 2
+      @post.custom_field_name.should == 2
 
       @post.comments.last.destroy
       @post.comment_count.should == 1
+      @post.custom_field_name.should == 1
 
       @post.comments.last.destroy
       @post.comment_count.should == 0
+      @post.custom_field_name.should == 0
     end
   end
 

@@ -16,6 +16,28 @@ module Mongoid
            field :#{field_name}, :type => Integer, :default => 0
         eos
 
+        options[:variants].to_a.each do |key,proc|
+          variant_name = "#{field_name}_#{key.to_s.strip}"
+          parent_class.class_eval <<-eos
+             field :#{variant_name}, :type => Integer, :default => 0
+          eos
+
+          after_create do
+            parent = self.send(relation_name)
+            if parent && parent[variant_name]
+              parent[variant_name] += 1 if proc.bind(self).call
+            end
+          end
+
+          after_destroy do
+            parent = self.send(relation_name)
+            if parent && parent[variant_name]
+              parent[variant_name] -= 1 if proc.bind(self).call
+            end
+          end
+
+        end
+
         after_create do
           parent = self.send(relation_name)
           if parent && parent[field_name]

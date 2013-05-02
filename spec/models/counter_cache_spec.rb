@@ -51,7 +51,7 @@ describe 'CounterCache' do
       @post.comment_count_positive == 2
       @post.comment_count_negative == 1
 
-      @post.comments.last.destroy_all
+      @post.comments.last.destroy
       @post.comment_count.should == 2
       @post.comment_count_positive == 2
       @post.comment_count_negative == 0

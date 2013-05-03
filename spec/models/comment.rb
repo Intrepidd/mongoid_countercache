@@ -1,5 +1,5 @@
 require 'mongoid'
-require 'mongoid_counter_cache'
+require 'mongoid_countercache'
 
 class Comment
   include Mongoid::Document

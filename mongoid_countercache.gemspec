@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'mongoid_counter_cache/version'
+require 'mongoid_countercache/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "mongoid_counter_cache"
+  spec.name          = "mongoid_countercache"
   spec.version       = MongoidCounterCache::VERSION
   spec.authors       = ["Adrien Siami"]
   spec.email         = ["adrien@siami.fr"]

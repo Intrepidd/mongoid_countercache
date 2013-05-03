@@ -8,7 +8,7 @@ This is basically an implementation of ActiveRecord counter cache for Mongoid.
 
 Add this line to your application's Gemfile:
 
-    gem 'mongoid_counter_cache'
+    gem 'mongoid_countercache'
 
 And then execute:
 
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install mongoid_counter_cache
+    $ gem install mongoid_countercache
 
 ## Usage
 

@@ -1,4 +1,4 @@
-# MongoidCounterCache
+# MongoidCounterCache [![Build Status](https://travis-ci.org/Intrepidd/mongoid_countercache.png?branch=master)](https://travis-ci.org/Intrepidd/mongoid_countercache)
 
 This gem is used to maintain a cached counter of an object's children, this avoids N + 1 queries issues when doing a ``count`` in a loop.
 

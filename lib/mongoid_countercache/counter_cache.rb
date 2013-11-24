@@ -40,8 +40,7 @@ module Mongoid
 
     def update_parent_counter(parent, field, inc, proc = nil)
       return unless parent && parent[field]
-      parent[field] += inc if proc.nil? || proc.bind(self).call
-      parent.save
+      parent.inc(field, inc) if proc.nil? || proc.bind(self).call
     end
 
   end

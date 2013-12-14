@@ -1,5 +1,11 @@
 # MongoidCounterCache [![Build Status](https://travis-ci.org/Intrepidd/mongoid_countercache.png?branch=master)](https://travis-ci.org/Intrepidd/mongoid_countercache)
 
+## Version
+
+This version is not compatible with mongoid 4 prerelease, have a look at the mongoid4 branch if you're looking for mongoid 4 compatibility
+
+## Description
+
 This gem is used to maintain a cached counter of an object's children, this avoids N + 1 queries issues when doing a ``count`` in a loop.
 
 This is basically an implementation of ActiveRecord counter cache for Mongoid.
